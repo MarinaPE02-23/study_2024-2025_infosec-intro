@@ -1,4 +1,3 @@
-FILES = $(patsubst %.md, %.docx, $(wildcard *.md))
 FILES += $(patsubst %.md, %.pdf, $(wildcard *.md))
 
 FILTERS =
