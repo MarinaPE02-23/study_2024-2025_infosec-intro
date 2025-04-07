@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Прокопьева М. Е">
+  <title>Дискреционное разграничение прав в Linux. Исследование влияния дополнительных атрибутов</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style type="text/css">Not found: /reveal.js@4.6.1//dist/reset.css</style>
+  <style type="text/css">Not found: /reveal.js@4.6.1//dist/reveal.css</style>
+  <style>
+.reveal .sourceCode { 
+overflow: visible;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">Not found: /reveal.js@4.6.1//dist/theme/beige.css</style>
+  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Дискреционное разграничение прав в Linux.
+Исследование влияния дополнительных атрибутов</h1>
+  <p class="subtitle">Лабораторная 5</p>
+  <p class="author">Прокопьева М. Е</p>
+  <p class="institute">Российский университет дружбы народов, Москва,
+Россия</p>
+</section>
+
+<section id="информация" class="slide level1">
+<h1>Информация</h1>
+<h2 id="докладчик">Докладчик</h2>
+<ul>
+<li>Прокопьева Марина Евгеньевна</li>
+<li>студент</li>
+<li>Российский университет дружбы народов</li>
+</ul>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>Цель работы</h1>
+<p>Изучение механизмов изменения идентификаторов, применения SetUID- и
+Sticky-битов. Получение практических навыков работы в кон- соли с
+дополнительными атрибутами. Рассмотрение работы механизма смены
+идентификатора процессов пользователей, а также влияние бита Sticky на
+запись и удаление файлов</p>
+</section>
+<section id="подготовка-лабораторного-стенда" class="slide level1">
+<h1>Подготовка лабораторного стенда</h1>
+<p>Помимо прав администратора для выполнения части заданий потребу- ются
+средства разработки приложений. В частности, при подготовке стенда
+следует убедиться, что в системе установлен компилятор gcc (для этого,
+на- пример, можно ввести команду gcc -v). Если же gcc не установлен, то
+его необходимо установить, например, командой yum install gcc которая
+определит зависимости и установит следующие пакеты: gcc, cloog- ppl,
+срр, glibc-devel, glibc-headers, kernel-headers, libgomp, ppl,
+cloog-ppl, срр, gcc, glibc-devel, glibc-headers, kernel-headers,
+libgomp, libstdc++-devel, mpfr, ppl, glibc, glibc-common, libgcc,
+libstdc++. Файловая система, где располагаются домашние директории и
+файлы пользователей (в частности, пользователя guest), не должна быть
+смонти- рована с опцией nosuid. Так как программы с установленным битом
+SetUID могут представлять большую брешь в системе безопасности, в
+современных системах исполь- зуются дополнительные механизмы защиты.
+Проследите, чтобы система защиты SELinux не мешала выполнению заданий
+работы. Если вы не зна- ете, что это такое, просто отключите систему
+запретов до очередной пере- загрузки системы командой setenforce 0 После
+этого команда getenforce должна выводить Permissive. В этой работе
+система SELinux рассматриваться не будет.</p>
+</section>
+<section id="компилирование-программ" class="slide level1">
+<h1>Компилирование программ</h1>
+<p>Для выполнения четвёртой части задания вам потребуются навыки про-
+граммирования, а именно, умение компилировать простые программы, на-
+писанные на языке С (С++), используя интерфейс CLI. Само по себе
+создание программ не относится к теме, по которой вы- полняется работа,
+а является вспомогательной частью, позволяющей уви- деть, как
+реализуются на практике те или иные механизмы дискреционного
+разграничения доступа. Если при написании (или исправлении существу-
+ющих) скриптов на bash-e у большинства системных администраторов не
+возникает проблем, то процесс компилирования, как показывает практика,
+вызывает необоснованные затруднения. Компиляторы, доступные в
+Linux-системах, являются частью коллек- ции GNU-компиляторов, известной
+как GCC (GNU Compiller Collection, подробнее см. http://gcc.gnu.org). В
+неё входят компиляторы языков С, С++, Java, Objective-C, Fortran и
+Chill. Будем использовать лишь первые два. ## Компилятор языка С
+называется gcc.</p>
+<p>Компилятор языка С++ называется g++ и запускается с параметрами почти
+так же, как gcc. Проверить это можно следующими командами:</p>
+<p>whereis gcc whereis g++</p>
+<h2 id="первый-шаг">Первый шаг</h2>
+<p>заключается в превращении исходных файлов в объектный код:</p>
+<p>gcc -c file.с</p>
+<p>В случае успешного выполнения команды (отсутствие ошибок в коде)
+полученный объектный файл будет называться file.о. Объектные файлы
+невозможно запускать и использовать, поэтому после компиляции для
+получения готовой программы объектные файлы необхо- димо скомпоновать.
+Компоновать можно один или несколько файлов. В слу- чае использования
+хотя бы одного из файлов, написанных на С++, компо- новка производится с
+помощью компилятора g++. Строго говоря, это тоже не вполне верно.
+Компоновка объектного кода, сгенерированного чем бы то ни было (хоть
+вручную), производится линкером ld, g++ его просто вызы- вает изнутри.
+Если же все файлы написаны на языке С, нужно использовать компилятор
+gcc. Например, так:</p>
+<p>gcc -o program file.o</p>
+<p>В случае успешного выполнения команды будет создана программа program
+(исполняемый файл формата ELF с установленным атрибутом +х).
+Компилирование — это процесс. Компилятор gcc (g++) имеет множе- ство
+параметров, влияющих на процесс компиляции. Он поддерживает раз- личные
+режимы оптимизации, выбор платформы назначения и пр. Также возможно
+использование make-файлов (Makefile) с помощью утилиты make для
+упрощения процесса компиляции.</p>
+<h2 id="section"></h2>
+<p>Такое решение подойдёт лишь для простых случаев. Если говорить про
+пример выше, то компилирование одного файла из двух шагов можно со-
+кратить вообще до одного, например:</p>
+<p>gcc file.c</p>
+<p>В этом случае готовая программа будет иметь называние a.out. Механизм
+компилирования программ в данной работе не мог быть не рассмотрен
+потому, что использование программ, написанных на bash, для изучения
+SetUID- и SetGID- битов, не представляется возможным. Связано это с тем,
+что любая bash-программа интерпретируется в процессе своего выполнения,
+т.е. существует сторонняя программа-интерпретатор, которая выполняет
+считывание файла сценария и выполняет его последовательно. Сам
+интерпретатор выполняется с правами пользователя, его запустившего, а
+значит, и выполняемая программа использует эти права. При этом
+интерпретатору абсолютно всё равно, установлены SetUID-, SetGID-биты у
+текстового файла сценария, атрибут разрешения запуска «x» или нет.
+Важно, чтобы был установлен лишь атрибут, разрешающий чтение «r». ##</p>
+<p>Также не важно, был ли вызван интерпретатор из командной строки
+(запуск файла, как bash file1.sh), либо внутри файла была указана
+строчка</p>
+<p>!/bin/bash.</p>
+<p>Логично спросить: если установление SetUID- и SetGID- битов на сце-
+нарий не приводит к нужному результату как с исполняемыми файлами, то
+что мешает установить эти биты на сам интерпретатор? Ничего не ме- шает,
+только их установление приведёт к тому, что, так как владельцем
+/bin/bash является root:</p>
+<p>ls -l /bin/bash</p>
+<h2 id="section-1"></h2>
+<p>все сценарии, выполняемые с использованием /bin/bash, будут иметь
+воз- можности суперпользователя — совсем не тот результат, который
+хотелось бы видеть. Если сомневаетесь в выше сказанном, создайте простой
+файл progl.sh следующего содержания:</p>
+<p>!/bin/bash /usr/bin/id /usr/bin/whoami</p>
+<p>и попробуйте поменять его атрибуты в различных конфигурациях. Подход
+вида: сделать копию /bin/bash, для нее chown user:users и потом SUID
+также плох, потому что это позволит запускать любые команды от
+пользователя user.</p>
+</section>
+<section id="выполнение-лабораторной-работы" class="slide level1">
+<h1>Выполнение лабораторной работы</h1>
+<h2 id="создание-программы">Создание программы</h2>
+<ol type="1">
+<li>Войдите в систему от имени пользователя guest.</li>
+<li>Создайте программу simpleid.c:</li>
+<li>Скомплилируйте программу и убедитесь, что файл программы
+создан:</li>
+<li>Выполните программу simpleid:</li>
+<li>Выполните системную программу id:</li>
+</ol>
+<p>и сравните полученный вами результат с данными предыдущего пункта
+задания.</p>
+<h2 id="section-2"></h2>
+<ol start="6" type="1">
+<li>Усложните программу, добавив вывод действительных идентификато-
+ров</li>
+<li>Скомпилируйте и запустите simpleid2.c:</li>
+<li>От имени суперпользователя выполните команды: Используйте sudo или
+повысьте временно свои права с помощью su. Поясните, что делают эти
+команды.</li>
+<li>Выполните проверку правильности установки новых атрибутов и смены
+владельца файла simpleid2: ls -l simpleid2</li>
+<li>Запустите simpleid2 и id: ./simpleid2 id Сравните результаты.</li>
+</ol>
+<h2 id="section-3"></h2>
+<ol start="12" type="1">
+<li>Проделайте тоже самое относительно SetGID-бита.</li>
+<li>Запустите simpleid2 и id:</li>
+<li>Создайте программу readfile.c:</li>
+<li>Откомпилируйте её.</li>
+<li>Смените владельца у файла readfile.c (или любого другого текстового
+файла в системе) и измените права так, чтобы только суперпользователь
+(root) мог прочитать его, a guest не мог.</li>
+</ol>
+<h2 id="section-4"></h2>
+<ol start="16" type="1">
+<li>Проверьте, что пользователь guest не может прочитать файл
+readfile.c.</li>
+<li>Смените у программы readfile владельца и установите SetU’D-бит.</li>
+<li>Проверьте, может ли программа readfile прочитать файл
+readfile.c?</li>
+<li>Проверьте, может ли программа readfile прочитать файл /etc/shadow?
+Отразите полученный результат и ваши объяснения в отчёт</li>
+</ol>
+<h2 id="исследование-sticky-бита">Исследование Sticky-бита</h2>
+<ol type="1">
+<li><p>Выясните, установлен ли атрибут Sticky на директории /tmp, для
+чего выполните команду</p></li>
+<li><p>От имени пользователя guest создайте файл file01.txt в директории
+/tmp со словом test:</p></li>
+<li><p>Просмотрите атрибуты у только что созданного файла и разрешите
+чте- ние и запись для категории пользователей «все остальные»:</p></li>
+<li><p>От пользователя guest2 (не являющегося владельцем) попробуйте
+про- читать файл /tmp/file01.txt:</p></li>
+<li><p>От пользователя guest2 попробуйте дозаписать в файл</p></li>
+</ol>
+<h2 id="section-5"></h2>
+<ol start="6" type="1">
+<li><p>Проверьте содержимое файла командой</p></li>
+<li><p>От пользователя guest2 попробуйте записать в файл /tmp/file01.txt
+слово test3, стерев при этом всю имеющуюся в файле информацию ко-
+мандой</p></li>
+<li><p>Проверьте содержимое файла командой</p></li>
+<li><p>От пользователя guest2 попробуйте удалить файл /tmp/file01.txt
+ко- мандой</p></li>
+</ol>
+<h2 id="section-6"></h2>
+<ol start="10" type="1">
+<li><p>Повысьте свои права до суперпользователя следующей командой su -
+и выполните после этого команду, снимающую атрибут t (Sticky-бит) с
+директории /tmp:</p></li>
+<li><p>Покиньте режим суперпользователя командой exit</p></li>
+<li><p>От пользователя guest2 проверьте, что атрибута t у директории
+/tmp нет:</p></li>
+<li><p>Повторите предыдущие шаги. Какие наблюдаются изменения?</p></li>
+<li><p>Удалось ли вам удалить файл от имени пользователя, не являющегося
+его владельцем? Ваши наблюдения занесите в отчёт. Информационная
+безопасность компьютерных сетей 39</p></li>
+<li><p>Повысьте свои права до суперпользователя и верните атрибут t на
+ди- ректорию /tmp:</p></li>
+</ol>
+</section>
+<section id="выводы" class="slide level1">
+<h1>Выводы</h1>
+<p>Изучила механизмы изменения идентификаторов, применения SetUID- и
+Sticky-битов. Полученила практических навыки работы в кон- соли с
+дополнительными атрибутами. Рассмотрела работы механизма смены
+идентификатора процессов пользователей, а также влияние бита Sticky на
+запись и удаление файлов</p>
+</section>
+    </div>
+  </div>
+
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fdist%2Freveal%2Ejs"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fplugin%2Fnotes%2Fnotes%2Ejs"></script>
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fplugin%2Fsearch%2Fsearch%2Ejs"></script>
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fplugin%2Fzoom%2Fzoom%2Ejs"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
