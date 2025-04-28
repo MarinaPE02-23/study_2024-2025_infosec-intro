@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Прокопьева М. Е.">
+  <title>Лабораторная работа</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <style type="text/css">Not found: /reveal.js@4.6.1//dist/reset.css</style>
+  <style type="text/css">Not found: /reveal.js@4.6.1//dist/reveal.css</style>
+  <style>
+.reveal .sourceCode { 
+overflow: visible;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">Not found: /reveal.js@4.6.1//dist/theme/beige.css</style>
+  
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Лабораторная работа</h1>
+  <p class="subtitle">Номер 4</p>
+  <p class="author">Прокопьева М. Е.</p>
+  <p class="institute">Российский университет дружбы народов, Москва,
+Россия</p>
+</section>
+
+<section id="информация" class="slide level1">
+<h1>Информация</h1>
+<h2 id="докладчик">Докладчик</h2>
+<ul>
+<li>Прокопьева Марина Евг.</li>
+<li>студент</li>
+<li>Бизнес-инфороматика</li>
+<li>Российский университет дружбы народов</li>
+</ul>
+</section>
+<section id="вводная-часть" class="slide level1">
+<h1>Вводная часть</h1>
+</section>
+<section id="цель-работы" class="slide level1">
+<h1>Цель работы</h1>
+<p>Освоить на практике применение режима однократного гаммирования</p>
+</section>
+<section id="порядок-выполнения-работы" class="slide level1">
+<h1>Порядок выполнения работы</h1>
+<p>Нужно подобрать ключ, чтобы получить сообщение «С Новым Годом,
+друзья!». Требуется разработать приложение, позволяющее шифровать и
+дешифровать данные в режиме однократного гаммирования. Приложение
+должно: 1. Определить вид шифротекста при известном ключе и известном
+откры- том тексте. 2. Определить ключ, с помощью которого шифротекст
+может быть преоб- разован в некоторый фрагмент текста, представляющий
+собой один из возможных вариантов прочтения открытого текста</p>
+</section>
+<section id="теоретическое-введение" class="slide level1">
+<h1>Теоретическое введение</h1>
+<p>Предложенная Г. С. Вернамом так называемая «схема однократного ис-
+пользования (гаммирования)» (рис. 7.1) является простой, но надёжной
+схе- мой шифрования данных. Гаммирование представляет собой наложение
+(снятие) на открытые (за- шифрованные) данные последовательности
+элементов других данных, по- лученной с помощью некоторого
+криптографического алгоритма, для по- лучения зашифрованных (открытых)
+данных. Иными словами, наложение гаммы — это сложение её элементов с
+элементами открытого (закрытого) текста по некоторому фиксированному
+модулю, значение которого пред- ставляет собой известную часть алгоритма
+шифрования.</p>
+</section>
+<section id="section" class="slide level1">
+<h1></h1>
+<p>В соответствии с теорией криптоанализа, если в методе шифрования ис-
+пользуется однократная вероятностная гамма (однократное гаммирование)
+той же длины, что и подлежащий сокрытию текст, то текст нельзя раскрыть.
+Даже при раскрытии части последовательности гаммы нельзя получить ин-
+формацию о всём скрываемом тексте. Наложение гаммы по сути представляет
+собой выполнение операции сложения по модулю 2 (XOR) (обозначаемая
+знаком ⊕) между элементами гаммы и элементами подлежащего сокрытию
+текста. Напомним, как рабо- тает операция XOR над битами: 0 ⊕ 0 = 0, 0 ⊕
+1 = 1, 1 ⊕ 0 = 1, 1 ⊕ 1 = 0. Такой метод шифрования является
+симметричным, так как двойное при- бавление одной и той же величины по
+модулю 2 восстанавливает исходное значение, а шифрование и расшифрование
+выполняется одной и той же про- граммой.</p>
+</section>
+<section id="section-1" class="slide level1">
+<h1></h1>
+<p>Если известны ключ и открытый текст, то задача нахождения шифротек-
+ста заключается в применении к каждому символу открытого текста следу-
+ющего правила: Ci = Pi ⊕ Ki, (7.1) где Ci — i-й символ получившегося
+зашифрованного послания, Pi — i-й символ открытого текста, Ki — i-й
+символ ключа, i = 1, m. Размерности открытого текста и ключа должны
+совпадать, и полученный шифротекст будет такой же длины. Если известны
+шифротекст и открытый текст, то задача нахождения ключа решается также в
+соответствии с (7.1), а именно, обе части равен- ства необходимо сложить
+по модулю 2 с Pi: Ci ⊕ Pi = Pi ⊕ Ki ⊕ Pi = Ki, Ki = Ci ⊕ Pi.</p>
+</section>
+<section id="section-2" class="slide level1">
+<h1></h1>
+<p>Открытый текст имеет символьный вид, а ключ — шестнадцатеричное
+представление. Ключ также можно представить в символьном виде, вос-
+пользовавшись таблицей ASCII-кодов. К. Шеннон доказал абсолютную
+стойкость шифра в случае, когда одно- кратно используемый ключ, длиной,
+равной длине исходного сообщения, является фрагментом истинно случайной
+двоичной последовательности с равномерным законом распределения.
+Криптоалгоритм не даёт никакой ин- формации об открытом тексте: при
+известном зашифрованном сообщении C все различные ключевые
+последовательности K возможны и равноверо- ятны, а значит, возможны и
+любые сообщения P . Необходимые и достаточные условия абсолютной
+стойкости шифра: – полная случайность ключа; – равенство длин ключа и
+открытого текста; – однократное использование ключа.</p>
+</section>
+<section id="section-3" class="slide level1">
+<h1></h1>
+<p>Рассмотрим пример. Ключ Центра: 05 0C 17 7F 0E 4E 37 D2 94 10 09 2E
+22 57 FF C8 0B B2 70 54 Сообщение Центра: Штирлиц – Вы Герой!! D8 F2 E8
+F0 EB E8 F6 20 2D 20 C2 FB 20 C3 E5 F0 EE E9 21 21 Зашифрованный текст,
+находящийся у Мюллера: DD FE FF 8F E5 A6 C1 F2 B9 30 CB D5 02 94 1A 38
+E5 5B 51 75 Дешифровальщики попробовали ключ: 05 0C 17 7F 0E 4E 37 D2 94
+10 09 2E 22 55 F4 D3 07 BB BC 54 и получили текст: D8 F2 E8 F0 EB E8 F6
+20 2D 20 C2 FB 20 C1 EE EB E2 E0 ED 21 Штирлиц - Вы Болван!</p>
+<p>Другие ключи дадут лишь новые фразы, пословицы, стихотворные строфы,
+словом, всевозможные тексты заданной длины.</p>
+</section>
+<section id="выполнение-лабораторной-работы" class="slide level1">
+<h1>Выполнение лабораторной работы</h1>
+<p>Я выполнала лабораторную работа на языке программирования Python,
+листинг программы и результаты выполнения приведены в отчете.</p>
+</section>
+<section id="section-4" class="slide level1">
+<h1></h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_key_hex(text):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    key <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(text)):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        key <span class="op">+=</span> random.choice(string.ascii_letters <span class="op">+</span> string.digits)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> key</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> en_de_crypt(text, key):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    new_text <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(text)): </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        new_text <span class="op">+=</span> <span class="bu">chr</span>(<span class="bu">ord</span>(text[i]) <span class="op">^</span> <span class="bu">ord</span>(key[i <span class="op">%</span> <span class="bu">len</span>(key)]))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> new_text</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_possible_key(text, fragment):</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    possible_keys <span class="op">=</span> []</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(text) <span class="op">-</span> <span class="bu">len</span>(fragment) <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        possible_key <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(fragment)):</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            possible_key <span class="op">+=</span> <span class="bu">chr</span>(<span class="bu">ord</span>(text[i <span class="op">+</span> j]) <span class="op">^</span> <span class="bu">ord</span>(fragment[j]))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        possible_keys.append(possible_key)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> possible_keys</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="st">&#39;С Новым Годом, друзья!&#39;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> generate_key_hex(t)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>en_t <span class="op">=</span> en_de_crypt(t, key)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>de_t <span class="op">=</span> en_de_crypt(en_t, key)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>keys_t_f <span class="op">=</span> find_possible_key(en_t, <span class="st">&#39;С Новым&#39;</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>fragment <span class="op">=</span> <span class="st">&quot;С Новым&quot;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;Открытый текст: &#39;</span>, t, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">Ключ: &quot;</span>, key, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Шифротекст: &#39;</span>, en_t, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Исходный текст: &#39;</span>, de_t,)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;Возможные ключи: &#39;</span>, keys_t_f)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;Расшифрованный фрагмент: &#39;</span>, en_de_crypt(en_t, keys_t_f[<span class="dv">0</span>]))</span></code></pre></div>
+</section>
+<section id="ответы-на-контрольные-вопросы" class="slide level1">
+<h1>Ответы на контрольные вопросы</h1>
+<ol type="1">
+<li><p>Поясните смысл однократного гаммирования. - Однократное
+гаммирование - это метод шифрования, при котором каждый символ открытого
+текста гаммируется с соответствующим символом ключа только один
+раз.</p></li>
+<li><p>Перечислите недостатки однократного гаммирования. - Недостатки
+однократного гаммирования:</p></li>
+</ol>
+<ul>
+<li>Уязвимость к частотному анализу из-за сохранения частоты символов
+открытого текста в шифротексте.</li>
+<li>Необходимость использования одноразового ключа, который должен быть
+длиннее самого открытого текста.</li>
+<li>Нет возможности использовать один ключ для шифрования разных
+сообщений.</li>
+</ul>
+</section>
+<section id="section-5" class="slide level1">
+<h1></h1>
+<ol start="3" type="1">
+<li>Перечислите преимущества однократного гаммирования. - Преимущества
+однократного гаммирования:</li>
+</ol>
+<ul>
+<li>Высокая стойкость при правильном использовании случайного
+ключа.</li>
+<li>Простота реализации алгоритма.</li>
+<li>Возможность использования случайного ключа.</li>
+</ul>
+<ol start="4" type="1">
+<li>Почему длина открытого текста должна совпадать с длиной ключа? -
+Длина открытого текста должна совпадать с длиной ключа, чтобы каждый
+символ открытого текста гаммировался с соответствующим символом
+ключа.</li>
+</ol>
+</section>
+<section id="section-6" class="slide level1">
+<h1></h1>
+<ol start="5" type="1">
+<li><p>Какая операция используется в режиме однократного гаммирования,
+назовите её особенности? - В режиме однократного гаммирования
+используется операция XOR (исключающее ИЛИ), которая объединяет двоичные
+значения символов открытого текста и ключа для получения шифротекста.
+Особенность XOR - если один из битов равен 1, то результат будет 1,
+иначе 0.</p></li>
+<li><p>Как по открытому тексту и ключу получить шифротекст? - Для
+получения шифротекста по открытому тексту и ключу каждый символ
+открытого текста гаммируется с соответствующим символом ключа с помощью
+операции XOR.</p></li>
+<li><p>Как по открытому тексту и шифротексту получить ключ? - По
+открытому тексту и шифротексту невозможно восстановить действительный
+ключ, так как для этого нужна информация о каждом символе
+ключа.</p></li>
+<li><p>В чем заключаются необходимые и достаточные условия абсолютной
+стойкости шифра - Необходимые и достаточные условия абсолютной стойкости
+шифра:</p></li>
+</ol>
+<ul>
+<li>Ключи должны быть случайными и использоваться только один раз.</li>
+<li>Длина ключа должна быть не менее длины самого открытого текста.</li>
+<li>Ключи должны быть храниться и передаваться безопасным способом.</li>
+</ul>
+</section>
+<section id="выводы" class="slide level1">
+<h1>Выводы</h1>
+<p>Освоила на практике применение режима однократного гаммирования.</p>
+</section>
+    </div>
+  </div>
+
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fdist%2Freveal%2Ejs"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fplugin%2Fnotes%2Fnotes%2Ejs"></script>
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fplugin%2Fsearch%2Fsearch%2Ejs"></script>
+  <script src="data:text/plain;charset=UTF-8;charset=utf-8,Not%20found%3A%20%2Freveal%2Ejs%404%2E6%2E1%2F%2Fplugin%2Fzoom%2Fzoom%2Ejs"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
